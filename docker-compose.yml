@@ -1,0 +1,40 @@
+services:
+    nginx:
+        image: nginx:1.20.1
+        container_name: nginx
+        tty: true
+        init: true
+        volumes:
+            - ./:/var/www
+            - ./.docker/nginx/:/etc/nginx/conf.d/
+        ports:
+            - "7777:80"
+        mem_limit: 500M
+        depends_on:
+            - php
+    php:
+        build:
+            context: .
+            dockerfile: ./.docker/php/Dockerfile
+        container_name: php
+        working_dir: /var/www
+        tty: true
+        init: true
+        depends_on:
+            - mysql
+        volumes:
+            - ./:/var/www
+            - ./.docker/php/:/usr/local/etc/php/conf.d/
+    mysql:
+        platform: linux/x86_64
+        image: mysql:5.7.33
+        container_name: mysql
+        volumes:
+            - ./.docker/mysql/data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_ROOT_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1

@@ -1,0 +1,233 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Binogi Code Challenge API",
+        "description": "Binogi Code Challenge API - OpenAPI Description",
+        "contact": {
+            "email": "ops@binogi.com"
+        },
+        "version": "2.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:7777"
+        }
+    ],
+    "paths": {
+        "/api/users/{user}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Show user",
+                "description": "Show user",
+                "operationId": "d3a14968f8b7a072620c75c7c78ed6f8",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMapper"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "description": "Update user",
+                "operationId": "e29fc231c7937ab09483d35e6e3d1214",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "ID of user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User after the update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMapper"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Failed validation of given params"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "description": "Create user",
+                "operationId": "592819a0265360b2014512d6dbfaf0e7",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserMapper"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User cannot be created"
+                    },
+                    "422": {
+                        "description": "Failed validation of given params"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserMapper": {
+                "title": "UserMapper",
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "email": {
+                        "description": "email",
+                        "type": "string",
+                        "example": "JaneDoe@email.com"
+                    },
+                    "name": {
+                        "description": "name",
+                        "type": "string",
+                        "example": "Jane Doe"
+                    }
+                },
+                "type": "object"
+            },
+            "UserStoreRequest": {
+                "description": "Create new user",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "maxLength": 191,
+                        "minLength": 1,
+                        "example": "Jane Doe"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "maxLength": 191,
+                        "minLength": 1,
+                        "example": "JaneDoe@email.com"
+                    },
+                    "password": {
+                        "description": "User Password",
+                        "type": "string",
+                        "maxLength": 191,
+                        "minLength": 1,
+                        "example": "correct horse battery staple"
+                    },
+                    "nickname": {
+                        "description": "User Nickname",
+                        "type": "string",
+                        "maxLength": 30,
+                        "minLength": 0,
+                        "example": "King"
+                    }
+                },
+                "type": "object"
+            },
+            "UserUpdateRequest": {
+                "description": "User Update Request Body",
+                "properties": {
+                    "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "maxLength": 191,
+                        "minLength": 1,
+                        "example": "Jane Doe"
+                    },
+                    "email": {
+                        "description": "User email",
+                        "type": "string",
+                        "maxLength": 191,
+                        "minLength": 1,
+                        "example": "JaneDoe@email.com"
+                    },
+                    "password": {
+                        "description": "User Password",
+                        "type": "string",
+                        "maxLength": 191,
+                        "minLength": 1,
+                        "example": "correct horse battery staple"
+                    },
+                    "nickname": {
+                        "description": "User Nickname",
+                        "type": "string",
+                        "maxLength": 30,
+                        "minLength": 0,
+                        "example": "King"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
